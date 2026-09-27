@@ -2110,35 +2110,65 @@ function getForeignLawContext(countryInput) {
 
 function addPdfSection(doc, title, lines, cursor) {
   const pageHeight = doc.internal.pageSize.getHeight();
+  const pageWidth = doc.internal.pageSize.getWidth();
   const normalizedLines = Array.isArray(lines) ? lines : [lines];
   let y = cursor;
+  const left = 18;
+  const width = pageWidth - 36;
+  const contentWidth = width - 20;
+  const bottom = pageHeight - 23;
 
-  if (y > pageHeight - 38) {
+  if (y > bottom - 27) {
     doc.addPage();
-    y = 20;
+    y = 27;
   }
+  // The title is drawn with the first piece of content so it never gets orphaned.
+  const drawCardTop = (top) => {
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(11.5);
+    const titleLines = doc.splitTextToSize(String(title), width - 18);
+    const headingHeight = Math.max(16, titleLines.length * 5 + 9);
+    doc.setFillColor(244, 248, 247);
+    doc.roundedRect(left, top, width, headingHeight, 2.5, 2.5, "F");
+    doc.setFillColor(38, 124, 111);
+    doc.roundedRect(left, top, 2.5, headingHeight, 1, 1, "F");
+    doc.setTextColor(29, 62, 58);
+    doc.text(titleLines, left + 9, top + 7);
+    return top + headingHeight + 4;
+  };
+  y = drawCardTop(y);
 
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(13);
-  doc.setTextColor(28, 37, 34);
-  doc.text(title, 18, y);
-  y += 8;
-
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(10);
-  doc.setTextColor(63, 75, 70);
-
-  normalizedLines.forEach((line) => {
-    const wrapped = doc.splitTextToSize(line, 172);
-    if (y + wrapped.length * 5 > pageHeight - 18) {
+  normalizedLines.forEach((line, index) => {
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9.5);
+    const wrapped = doc.splitTextToSize(String(line ?? ""), contentWidth - 5);
+    const lineHeight = 4.7;
+    if (y + Math.min(wrapped.length, 2) * lineHeight > bottom) {
       doc.addPage();
-      y = 20;
+      y = drawCardTop(27);
     }
-    doc.text(wrapped, 22, y);
-    y += wrapped.length * 5 + 3;
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9.5);
+    if (index > 0) {
+      doc.setFillColor(38, 124, 111);
+      doc.circle(left + 9, y - 1.1, 0.8, "F");
+    }
+    doc.setTextColor(64, 81, 78);
+    // Long paragraphs can span pages; repeat the section heading on continuation.
+    wrapped.forEach((row) => {
+      if (y > bottom) {
+        doc.addPage();
+        y = drawCardTop(27);
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(9.5);
+        doc.setTextColor(64, 81, 78);
+      }
+      doc.text(row, left + 14, y);
+      y += lineHeight;
+    });
+    y += 3.5;
   });
-
-  return y + 4;
+  return y + 7;
 }
 
 async function generateReportPdf({
@@ -2172,26 +2202,31 @@ async function generateReportPdf({
   const pathLabel = answers.mode === "prenup" ? "Prenup readiness" : "Postnup readiness";
   const scoreLabel = `${result.level} planning value`;
 
-  doc.setFillColor(47, 52, 55);
-  doc.rect(0, 0, 216, 42, "F");
+  const pageWidth = doc.internal.pageSize.getWidth();
+  doc.setFillColor(24, 61, 57);
+  doc.rect(0, 0, pageWidth, 53, "F");
+  doc.setFillColor(38, 124, 111);
+  doc.rect(0, 50, pageWidth, 3, "F");
   doc.setTextColor(255, 255, 255);
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(20);
-  doc.text(copy.brandTitle, 18, 20);
+  doc.setFontSize(19);
+  doc.text(doc.splitTextToSize(copy.brandTitle, pageWidth - 85), 18, 21);
   doc.setFont("helvetica", "normal");
-  doc.setFontSize(10);
-  doc.text(`${pathLabel} | ${rule.name} | Generated ${generatedAt}`, 18, 29);
+  doc.setFontSize(9);
+  doc.setTextColor(217, 236, 231);
+  doc.text(`${pathLabel}  |  ${rule.name}`, 18, 35);
+  doc.text(`Prepared ${generatedAt}`, 18, 42);
 
-  doc.setFillColor(216, 210, 200);
-  doc.roundedRect(162, 12, 36, 18, 2, 2, "F");
-  doc.setTextColor(42, 45, 47);
+  doc.setFillColor(230, 245, 239);
+  doc.roundedRect(pageWidth - 66, 11, 48, 31, 3, 3, "F");
+  doc.setTextColor(24, 61, 57);
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(16);
-  doc.text(String(result.score), 171, 24);
+  doc.setFontSize(20);
+  doc.text(String(result.score), pageWidth - 42, 25, { align: "center" });
   doc.setFontSize(8);
-  doc.text(scoreLabel, 18, 49);
+  doc.text(doc.splitTextToSize(scoreLabel, 42), pageWidth - 42, 33, { align: "center" });
 
-  let y = 60;
+  let y = 64;
   y = addPdfSection(
     doc,
     answers.mode === "postnup" ? copy.whyPostnupImportant : copy.whyImportant,
@@ -2286,6 +2321,27 @@ async function generateReportPdf({
     "This report is for educational planning and issue spotting only. It does not draft an agreement, provide legal advice, or replace legal counsel.",
     y
   );
+
+  const totalPages = doc.internal.getNumberOfPages();
+  for (let page = 1; page <= totalPages; page += 1) {
+    doc.setPage(page);
+    if (page > 1) {
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(8);
+      doc.setTextColor(38, 124, 111);
+      doc.text(copy.brandTitle, 18, 15);
+      doc.setDrawColor(218, 229, 225);
+      doc.line(18, 19, pageWidth - 18, 19);
+    }
+    const footerY = doc.internal.pageSize.getHeight() - 12;
+    doc.setDrawColor(218, 229, 225);
+    doc.line(18, footerY - 6, pageWidth - 18, footerY - 6);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(8);
+    doc.setTextColor(108, 125, 119);
+    doc.text(`${rule.name}  |  Educational planning report`, 18, footerY);
+    doc.text(`${page} / ${totalPages}`, pageWidth - 18, footerY, { align: "right" });
+  }
 
   doc.save(`prenup-planner-${answers.state.toLowerCase()}-report.pdf`);
 }
