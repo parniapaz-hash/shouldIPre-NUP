@@ -3508,7 +3508,7 @@ function App() {
             <section className="takeaways" aria-labelledby="takeaway-title">
               <div className="takeaway-intro">
                 <p className="eyebrow">{summary.eyebrow}</p>
-                <h2 id="takeaway-title">{summary.title}</h2>
+                <h2 id="takeaway-title">till contract do us part</h2>
                 <p>{summary.basis}</p>
               </div>
               <article className={`takeaway-verdict ${result.level.toLowerCase()}`}>
