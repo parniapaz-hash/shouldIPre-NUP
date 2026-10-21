@@ -1881,3 +1881,13 @@ li + li {
   .cartoon-panel * { animation: none !important; }
   .cartoon-animation-toggle { display: none; }
 }
+
+.conversation-followups { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 22px; border-top: 1px solid #c6dcf2; padding-top: 20px; }
+.conversation-followups h4, .conversation-small-step h4 { color: #12304d; font-size: .95rem; margin: 0 0 10px; }
+.conversation-followups ul { margin: 0; padding-inline-start: 20px; }
+.conversation-followups li { margin-bottom: 10px; }
+.conversation-followups li, .conversation-followups blockquote, .conversation-small-step p { color: #42566c; line-height: 1.6; }
+.conversation-followups blockquote { margin: 0; padding-inline-start: 14px; border-inline-start: 3px solid #93c5fd; }
+.conversation-small-step { margin-top: 20px; padding: 16px; background: #e5effb; border-radius: 8px; }
+.conversation-small-step p { margin: 0; }
+@media (max-width: 760px) { .conversation-followups { grid-template-columns: 1fr; } }
