@@ -11,6 +11,7 @@ import {
   Clock3,
   FileText,
   Globe2,
+  Gavel,
   HeartHandshake,
   Home,
   Landmark,
@@ -2593,8 +2594,21 @@ function App() {
   const [stepIndex, setStepIndex] = useState(0);
   const [scriptCopied, setScriptCopied] = useState(false);
   const activeStepRef = useRef(null);
+  const stepPathRef = useRef(null);
+  const [gavelPosition, setGavelPosition] = useState(null);
   useEffect(() => {
-    activeStepRef.current?.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
+    const path = stepPathRef.current;
+    const positionGavel = () => {
+      const active = activeStepRef.current;
+      if (active) setGavelPosition(active.offsetLeft + active.offsetWidth / 2);
+    };
+    positionGavel();
+    const observer = new ResizeObserver(positionGavel);
+    if (path) observer.observe(path);
+    return () => observer.disconnect();
+  }, [stepIndex, language]);
+  useEffect(() => {
+    activeStepRef.current?.scrollIntoView({ block: "nearest", inline: "center", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
   }, [stepIndex, language]);
   const copy = getCopy(language);
   const summary = takeawayCopy[language];
@@ -2701,7 +2715,12 @@ function App() {
           </div>
         </div>
 
-        <nav className="step-list" aria-label="Planner sections">
+        <nav className="step-list" aria-label="Planner sections" ref={stepPathRef}>
+          {gavelPosition !== null && (
+            <span className="path-gavel" style={{ left: gavelPosition }} aria-hidden="true">
+              <Gavel key={stepIndex} className="path-gavel-icon" size={26} strokeWidth={2.2} />
+            </span>
+          )}
           {steps.map((item, index) => {
             const label = item.id === "takeaways" ? summary.label : getStepLabel(copy, item.id, answers.mode);
             return (
