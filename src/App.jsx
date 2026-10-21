@@ -20,7 +20,7 @@ import {
   ShieldCheck,
   Sparkles
 } from "lucide-react";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { stateRules } from "./data/stateRules";
 
 const initialAnswers = {
@@ -2592,6 +2592,10 @@ function App() {
   const [language, setLanguage] = useState("en");
   const [stepIndex, setStepIndex] = useState(0);
   const [scriptCopied, setScriptCopied] = useState(false);
+  const activeStepRef = useRef(null);
+  useEffect(() => {
+    activeStepRef.current?.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
+  }, [stepIndex, language]);
   const copy = getCopy(language);
   const summary = takeawayCopy[language];
   const rule = stateRules[answers.state];
@@ -2688,7 +2692,7 @@ function App() {
 
   return (
     <main className="app-shell" dir={languages[language].dir} lang={language}>
-      <aside className="sidebar">
+      <header className="planner-header">
         <div className="brand">
           <Scale size={28} aria-hidden="true" />
           <div>
@@ -2699,17 +2703,18 @@ function App() {
 
         <nav className="step-list" aria-label="Planner sections">
           {steps.map((item, index) => {
-            const Icon = item.icon;
             const label = item.id === "takeaways" ? summary.label : getStepLabel(copy, item.id, answers.mode);
             return (
               <button
-                className={index === stepIndex ? "step active" : "step"}
+                className={`step${index === stepIndex ? " active" : index < stepIndex ? " passed" : ""}`}
+                aria-current={index === stepIndex ? "step" : undefined}
+                ref={index === stepIndex ? activeStepRef : null}
                 key={item.id}
                 type="button"
                 onClick={() => setStepIndex(index)}
               >
-                <Icon size={18} aria-hidden="true" />
-                <span>{label}</span>
+                <span className="step-marker" aria-hidden="true">{index + 1}</span>
+                <span className="step-label">{label}</span>
               </button>
             );
           })}
@@ -2719,7 +2724,7 @@ function App() {
           <ShieldCheck size={18} aria-hidden="true" />
           <p>{copy.boundaryNote}</p>
         </div>
-      </aside>
+      </header>
 
       <section className="workspace">
         <header className="topbar">
