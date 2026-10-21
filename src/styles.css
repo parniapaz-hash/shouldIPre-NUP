@@ -1750,3 +1750,28 @@ li + li {
     width: 100%;
   }
 }
+
+/* A short overview before the detailed planning report. */
+.takeaways { max-width: 940px; margin-inline: auto; display: grid; gap: 24px; }
+.takeaway-intro .eyebrow { color: #356a76; font-weight: 700; }
+.takeaway-intro h2 { font-size: clamp(1.65rem, 3vw, 2.4rem); line-height: 1.2; margin: 10px 0; letter-spacing: -0.035em; }
+.takeaway-intro > p:last-child { color: #5b687a; line-height: 1.6; margin: 0; }
+.takeaway-verdict { display: flex; align-items: flex-start; gap: 18px; padding: 28px; border-radius: 16px; background: #eaf5f2; border: 1px solid #c8e4db; color: #194d43; }
+.takeaway-verdict > svg { flex-shrink: 0; margin-top: 3px; }
+.takeaway-kicker { font-size: .85rem; font-weight: 600; margin: 0 0 10px; }
+.takeaway-verdict h3 { font-size: clamp(1.25rem, 2.3vw, 1.7rem); line-height: 1.4; margin: 0; max-width: 38ch; }
+.takeaway-details { display: grid; grid-template-columns: 1.35fr 1fr; gap: 20px; }
+.takeaway-details article { border: 1px solid #dce5ed; border-radius: 14px; padding: 24px; background: #fff; }
+.takeaway-details h3 { margin: 0 0 18px; font-size: 1.05rem; }
+.takeaway-details ol { margin: 0; padding-inline-start: 24px; display: grid; gap: 18px; }
+.takeaway-details li, .takeaway-details p { line-height: 1.65; color: #42536a; }
+.takeaway-details li { padding-inline-start: 5px; }
+.takeaway-details li::marker { color: #267c6f; font-weight: 800; }
+.takeaway-next > svg { color: #267c6f; margin-bottom: 14px; }
+.takeaway-next p { margin: 0; }
+.takeaway-boundary { font-size: .8rem; line-height: 1.6; color: #64748b; margin: 0; }
+@media (max-width: 760px) {
+  .takeaway-details { grid-template-columns: 1fr; }
+  .takeaway-verdict { padding: 20px; gap: 12px; }
+  .takeaway-details article { padding: 20px; }
+}

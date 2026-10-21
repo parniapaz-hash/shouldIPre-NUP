@@ -69,6 +69,7 @@ const steps = [
   { id: "assets", label: "Assets", icon: CircleDollarSign },
   { id: "complexity", label: "Complexity", icon: Globe2 },
   { id: "consequences", label: "Consequences", icon: AlertTriangle },
+  { id: "takeaways", label: "Main points", icon: Sparkles },
   { id: "report", label: "Report", icon: FileText }
 ];
 
@@ -77,6 +78,105 @@ const languages = {
   es: { label: "Español", dir: "ltr" },
   ar: { label: "العربية", dir: "rtl" },
   zh: { label: "中文", dir: "ltr" }
+};
+
+const takeawayCopy = {
+  "en": {
+    "label": "Main points",
+    "eyebrow": "Your big picture",
+    "title": "The takeaway, in a minute.",
+    "high": "Your answers give you strong reasons to discuss an agreement.",
+    "moderate": "An agreement is worth exploring for the issues you flagged.",
+    "lower": "You flagged fewer major issues. A conversation is still worthwhile.",
+    "priorities": "What matters most",
+    "nextMove": "Your next move",
+    "openReport": "View full report",
+    "back": "Back to main points",
+    "basis": "Based on your answers so far. You can go back and change them.",
+    "pressure": "Protect time for a voluntary decision. Pressure or a rush deserves attention before signing.",
+    "assets": "Clarify how assets, debts, and future growth would be handled.",
+    "family": "Discuss income differences and the financial impact of family or career choices.",
+    "foreign": "Get advice in each relevant country before relying on one agreement.",
+    "benefits": "Check how pensions and public-service benefits fit into your plan.",
+    "baseline": "Understand the rules in your state and share a complete financial picture.",
+    "pause": "Pause signing and speak privately with your own lawyer about the pressure you flagged.",
+    "conversation": "Start with a calm conversation about what each of you wants the agreement to accomplish.",
+    "lawyer": "Ask your own lawyer about the priorities above and gather your financial records.",
+    "prenup": "A prenup conversation",
+    "postnup": "A postnup conversation"
+  },
+  "es": {
+    "label": "Puntos clave",
+    "eyebrow": "El panorama general",
+    "title": "Lo esencial, en un minuto.",
+    "high": "Tus respuestas dan motivos importantes para hablar de un acuerdo.",
+    "moderate": "Vale la pena explorar un acuerdo para los temas que señalaste.",
+    "lower": "Señalaste menos problemas importantes. Aun así, conviene hablarlo.",
+    "priorities": "Lo más importante",
+    "nextMove": "Tu siguiente paso",
+    "openReport": "Ver el informe completo",
+    "back": "Volver a los puntos clave",
+    "basis": "Según tus respuestas hasta ahora. Puedes volver y cambiarlas.",
+    "pressure": "Dejen tiempo para decidir libremente. La presión o las prisas requieren atención antes de firmar.",
+    "assets": "Aclaren cómo se tratarían los activos, las deudas y el crecimiento futuro.",
+    "family": "Hablen de las diferencias de ingresos y del impacto económico de las decisiones familiares o profesionales.",
+    "foreign": "Busquen asesoría en cada país pertinente antes de confiar en un solo acuerdo.",
+    "benefits": "Revisen cómo encajan las pensiones y las prestaciones del servicio público en su plan.",
+    "baseline": "Conozcan las reglas de su estado y compartan una imagen financiera completa.",
+    "pause": "No firmes todavía y habla en privado con tu propio abogado sobre la presión que señalaste.",
+    "conversation": "Empiecen con una conversación tranquila sobre lo que cada uno quiere lograr con el acuerdo.",
+    "lawyer": "Consulta a tu propio abogado sobre estas prioridades y reúne tus documentos financieros.",
+    "prenup": "Una conversación sobre un acuerdo prenupcial",
+    "postnup": "Una conversación sobre un acuerdo posnupcial"
+  },
+  "ar": {
+    "label": "النقاط الرئيسية",
+    "eyebrow": "الصورة العامة",
+    "title": "الخلاصة في دقيقة.",
+    "high": "إجاباتك تشير إلى أسباب قوية لمناقشة اتفاق.",
+    "moderate": "يجدر استكشاف اتفاق لمعالجة المسائل التي أشرت إليها.",
+    "lower": "أشرت إلى مسائل رئيسية أقل. ومع ذلك، تبقى المناقشة مفيدة.",
+    "priorities": "ما يهم أكثر",
+    "nextMove": "خطوتك التالية",
+    "openReport": "عرض التقرير الكامل",
+    "back": "العودة إلى النقاط الرئيسية",
+    "basis": "بناءً على إجاباتك الحالية. يمكنك العودة وتعديلها.",
+    "pressure": "خصصا وقتاً لاتخاذ قرار طوعي. يجب معالجة الضغط أو الاستعجال قبل التوقيع.",
+    "assets": "وضّحا كيفية التعامل مع الأصول والديون والنمو المستقبلي.",
+    "family": "ناقشا اختلاف الدخل والأثر المالي للقرارات العائلية والمهنية.",
+    "foreign": "اطلبا مشورة في كل بلد معني قبل الاعتماد على اتفاق واحد.",
+    "benefits": "راجعا دور المعاشات ومزايا الخدمة العامة في خطتكما.",
+    "baseline": "تعرّفا على قواعد ولايتكما وشاركا صورة مالية كاملة.",
+    "pause": "توقف عن التوقيع وتحدث على انفراد مع محاميك عن الضغط الذي أشرت إليه.",
+    "conversation": "ابدآ بحديث هادئ حول ما يريد كل منكما تحقيقه من الاتفاق.",
+    "lawyer": "اسأل محاميك عن الأولويات أعلاه واجمع سجلاتك المالية.",
+    "prenup": "مناقشة اتفاق قبل الزواج",
+    "postnup": "مناقشة اتفاق بعد الزواج"
+  },
+  "zh": {
+    "label": "要点",
+    "eyebrow": "整体概览",
+    "title": "一分钟了解重点。",
+    "high": "你的回答显示，有充分理由讨论财产协议。",
+    "moderate": "针对你提出的问题，值得进一步了解财产协议。",
+    "lower": "你标记的重大问题较少，但仍值得沟通。",
+    "priorities": "最重要的事",
+    "nextMove": "下一步",
+    "openReport": "查看完整报告",
+    "back": "返回要点",
+    "basis": "基于你目前的回答。你可以返回修改。",
+    "pressure": "留出时间自愿做决定。如有压力或仓促安排，应在签署前处理。",
+    "assets": "明确资产、债务及未来增值如何处理。",
+    "family": "讨论收入差距以及家庭或职业选择的财务影响。",
+    "foreign": "在依赖一份协议之前，咨询每个相关国家的专业人士。",
+    "benefits": "确认养老金及公共服务福利如何纳入计划。",
+    "baseline": "了解所在州的规则，并完整披露财务情况。",
+    "pause": "暂缓签署，私下向你自己的律师说明你提到的压力。",
+    "conversation": "先平静地讨论彼此希望通过协议实现什么。",
+    "lawyer": "向你自己的律师咨询上述重点，并整理财务记录。",
+    "prenup": "讨论婚前协议",
+    "postnup": "讨论婚后协议"
+  }
 };
 
 const translations = {
@@ -2493,6 +2593,7 @@ function App() {
   const [stepIndex, setStepIndex] = useState(0);
   const [scriptCopied, setScriptCopied] = useState(false);
   const copy = getCopy(language);
+  const summary = takeawayCopy[language];
   const rule = stateRules[answers.state];
   const result = useMemo(() => scoreAnswers(answers), [answers]);
   const currentAssetTotal = useMemo(() => getAssetTotal(answers.currentAssetValues), [answers.currentAssetValues]);
@@ -2573,6 +2674,16 @@ function App() {
       setScriptCopied(false);
     }
   };
+  const priorityPoints = [
+    answers.pressure === "yes" && summary.pressure,
+    (answers.internationalAssets === "yes" || answers.internationalAssets === "unsure") && summary.foreign,
+    (answers.currentAssets.length > 0 || answers.futureAssets.length > 0 || answers.business === "yes" || answers.realEstate === "yes" || answers.debts === "yes") && summary.assets,
+    (answers.incomeGap === "yes" || answers.children === "yes" || answers.careerSacrifice === "yes") && summary.family,
+    (answers.pensionStatus === "yes" || answers.pensionStatus === "unsure" || answers.militaryStatus === "yes" || answers.governmentStatus === "yes") && summary.benefits
+  ].filter(Boolean).slice(0, 3);
+  if (priorityPoints.length === 0) priorityPoints.push(summary.baseline);
+  const summaryNextMove = answers.pressure === "yes" ? summary.pause
+    : answers.discussedWithPartner !== "yes" ? summary.conversation : summary.lawyer;
   const step = steps[stepIndex];
 
   return (
@@ -2589,7 +2700,7 @@ function App() {
         <nav className="step-list" aria-label="Planner sections">
           {steps.map((item, index) => {
             const Icon = item.icon;
-            const label = getStepLabel(copy, item.id, answers.mode);
+            const label = item.id === "takeaways" ? summary.label : getStepLabel(copy, item.id, answers.mode);
             return (
               <button
                 className={index === stepIndex ? "step active" : "step"}
@@ -2613,7 +2724,7 @@ function App() {
       <section className="workspace">
         <header className="topbar">
           <div>
-            <h1>{getStepLabel(copy, step.id, answers.mode)}</h1>
+            <h1>{step.id === "takeaways" ? summary.label : getStepLabel(copy, step.id, answers.mode)}</h1>
           </div>
           <div className="topbar-actions">
             <label className="language-select">
@@ -3330,6 +3441,35 @@ function App() {
             </section>
           )}
 
+          {step.id === "takeaways" && (
+            <section className="takeaways" aria-labelledby="takeaway-title">
+              <div className="takeaway-intro">
+                <p className="eyebrow">{summary.eyebrow}</p>
+                <h2 id="takeaway-title">{summary.title}</h2>
+                <p>{summary.basis}</p>
+              </div>
+              <article className={`takeaway-verdict ${result.level.toLowerCase()}`}>
+                <ShieldCheck size={30} aria-hidden="true" />
+                <div>
+                  <p className="takeaway-kicker">{answers.mode === "postnup" ? summary.postnup : summary.prenup} · {rule.name}</p>
+                  <h3>{summary[result.level.toLowerCase()]}</h3>
+                </div>
+              </article>
+              <div className="takeaway-details">
+                <article>
+                  <h3>{summary.priorities}</h3>
+                  <ol>{priorityPoints.map((point) => <li key={point}>{point}</li>)}</ol>
+                </article>
+                <article className="takeaway-next">
+                  <HeartHandshake size={25} aria-hidden="true" />
+                  <h3>{summary.nextMove}</h3>
+                  <p>{summaryNextMove}</p>
+                </article>
+              </div>
+              <p className="takeaway-boundary">{copy.boundaryNote}</p>
+            </section>
+          )}
+
           {step.id === "report" && (
             <section className="report">
               <div className="report-header">
@@ -3624,7 +3764,7 @@ function App() {
         <footer className="controls">
           <button type="button" onClick={() => setStepIndex(Math.max(0, stepIndex - 1))} disabled={stepIndex === 0}>
             <ArrowLeft size={17} aria-hidden="true" />
-            {copy.back}
+            {step.id === "report" ? summary.back : copy.back}
           </button>
           <button
             className="primary"
@@ -3632,7 +3772,7 @@ function App() {
             onClick={() => setStepIndex(Math.min(steps.length - 1, stepIndex + 1))}
             disabled={stepIndex === steps.length - 1}
           >
-            {copy.next}
+            {step.id === "takeaways" ? summary.openReport : copy.next}
             <ArrowRight size={17} aria-hidden="true" />
           </button>
         </footer>
