@@ -2536,8 +2536,19 @@ function YesNo({ copy, value, onChange }) {
   );
 }
 
-function DivorceCartoon({ exposure }) {
+function DivorceCartoon({ exposure, language }) {
+  const [paused, setPaused] = useState(false);
+  const labels = {
+    en: ["Pause animation", "Play animation"],
+    es: ["Pausar animación", "Reproducir animación"],
+    ar: ["إيقاف الحركة مؤقتاً", "تشغيل الحركة"],
+    zh: ["暂停动画", "播放动画"]
+  }[language] ?? ["Pause animation", "Play animation"];
   return (
+    <div className={`cartoon-scene${paused ? " paused" : ""}`}>
+    <button className="cartoon-animation-toggle" type="button" onClick={() => setPaused((value) => !value)}>
+      {labels[paused ? 1 : 0]}
+    </button>
     <div className={`cartoon-panel ${exposure.toLowerCase()}`} aria-hidden="true">
       <svg viewBox="0 0 520 280" role="img">
         <rect className="cartoon-bg" x="8" y="8" width="504" height="264" rx="18" />
@@ -2584,6 +2595,7 @@ function DivorceCartoon({ exposure }) {
           NO AGREEMENT: A FINANCIAL MYSTERY IN SIX BILLABLE HOURS.
         </text>
       </svg>
+    </div>
     </div>
   );
 }
@@ -3273,7 +3285,7 @@ function App() {
 
               <div className="consequence-grid">
                 <article className="story-card">
-                  <DivorceCartoon exposure={consequenceContext.exposure} />
+                  <DivorceCartoon exposure={consequenceContext.exposure} language={language} />
                   <h3>{copy.storyTitle}</h3>
                   {consequenceStory.map((line) => (
                     <p key={line}>{line}</p>
