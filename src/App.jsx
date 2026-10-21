@@ -456,7 +456,7 @@ const translations = {
     sourceNotes: "Source notes",
     consequencesTitle: "Consequences simulator",
     storyEyebrow: "Slightly dramatic scenario",
-    storyTitle: "If no agreement exists",
+    storyTitle: "The Department of We Thought We Would Figure It Out",
     statisticsTitle: "Divorce statistics and unofficial context",
     statisticsDisclaimer:
       "This combines an official population statistic with a transparent, unofficial planning indicator. The indicator is not this couple's personal divorce probability.",
@@ -2061,27 +2061,27 @@ function getDivorceRateContext(answers, consequenceContext) {
 function getConsequenceStory(answers, rule, context, costEstimate, litigationEstimate) {
   const agreementName = answers.mode === "prenup" ? "prenup" : "postnup";
   const assetPhrase = answers.currentAssets.length
-    ? `The first argument starts with ${answers.currentAssets.slice(0, 3).join(", ").toLowerCase()}, then escalates until a perfectly normal bank statement is being treated like evidence from a submarine trial`
-    : "The first argument starts with a checking account, a vague memory of who paid for what, and one spreadsheet named FINAL-final-use-this-one.xlsx that everyone swears is the real one this time";
+    ? `First on the agenda: ${answers.currentAssets.slice(0, 3).join(", ").toLowerCase()}. Previously known as “our stuff,” these items now require a document portal, a valuation date, and a person whose hourly rate has its own parking space.`
+    : "First on the agenda: a checking account and a spreadsheet called FINAL-final-ACTUALLY-FINAL.xlsx. Both parties recognize the file. Neither recognizes the numbers. A consultant is retained to investigate the meaning of column G.";
   const futurePhrase = answers.futureAssets.length
-    ? `Then someone remembers the ${answers.futureAssets.slice(0, 2).join(" and ").toLowerCase()} that was supposed to be simple. It immediately grows a mustache, hires a valuation expert, and becomes three separate arguments.`
-    : "Then the conversation finds future money anyway, because future money has excellent timing and terrible manners.";
+    ? `Next up: ${answers.futureAssets.slice(0, 2).join(" and ").toLowerCase()}. The future has arrived, and it would like reimbursement for its travel time.`
+    : "Even future money gets invited. It has not been earned yet, but apparently its calendar is wide open for depositions.";
   const internationalPhrase =
     answers.internationalAssets === "yes" || answers.internationalAssets === "unsure"
-      ? `A foreign-asset issue appears, and suddenly the divorce has an international subplot in ${answers.foreignCountry || "another country"}, complete with time zones, stamps, and one document nobody can find.`
-      : "At least there is no foreign-asset subplot. Small mercy, though the paperwork still brought tap shoes.";
+      ? `The assets in ${answers.foreignCountry.trim() || "another country"} earn the proceedings an international expansion pack: local counsel, translations, and a document that must be stamped by someone who is closed on Thursdays.`
+      : "There is no international asset subplot, so the paperwork must generate all its administrative excitement domestically. It rises to the challenge.";
   const incomePhrase =
     answers.incomeGap === "yes" || getIncomeSnapshot(answers).length > 0
-      ? "Income growth becomes a courtroom weather system: bonuses raining sideways, equity fog, and everyone arguing about who packed the umbrella."
-      : "Income is less dramatic here, which is good. The paperwork still finds a way to enter wearing a cape.";
+      ? "Bonuses, raises, and equity join the discussion. Everyone supports career growth in principle; the meeting about who gets to count which part of it has entered its third quarter."
+      : "Income contributes less drama here. The billing department thanks the remaining issues for stepping up.";
 
   return [
-    `Imagine nobody signs a ${agreementName}. Years later, the relationship ends, and ${rule.name}'s default ${rule.propertySystem.toLowerCase()} rules burst through the wall holding a clipboard and a tiny gavel.`,
-    `${assetPhrase}. ${futurePhrase}`,
+    `Imagine a financial dispute after a separation, with no ${agreementName} in place. Welcome to the Department of We Thought We Would Figure It Out. Your file may be handled under ${rule.name}'s default ${rule.propertySystem.toLowerCase()} rules. The department has never met either of you, but it has brought forms.`,
+    `${assetPhrase} ${futurePhrase}`,
     `${internationalPhrase} ${incomePhrase}`,
-    `Instead of calmly pointing to a signed agreement, everyone pays lawyers to reconstruct intent from old emails, bank transfers, half-remembered conversations, and screenshots that somehow all have 3% battery and the emotional tone of a hostage note.`,
-    `The estimated attorney-cost range for drafting now is ${costEstimate.range}. The rough combined cost of litigating the financial divorce later is ${litigationEstimate.range}. The haunted cash register has, regrettably, learned arithmetic.`,
-    `Dispute exposure based on the current answers: ${context.exposure}. Translation: the ${agreementName} conversation may be awkward now, but future-you may send present-you a fruit basket and a notarized thank-you card.`
+    `To establish what everyone “obviously meant,” the committee reviews seven years of bank transfers, an email beginning “quick question,” and a text reading “sure babe.” The text is twelve characters. The discussion of the text has a lunch break.`,
+    `Meanwhile, the app estimates ${costEstimate.range} in attorney costs for drafting an agreement now, compared with a rough combined ${litigationEstimate.range} for litigating the financial divorce later. These are planning estimates, not competing checkout offers. The cash register is the only participant who feels fully heard.`,
+    `Your current dispute-exposure indicator is ${context.exposure}. This is a hypothetical, not a prediction that you will separate or end up in court. A carefully prepared ${agreementName} may clarify expectations; it cannot guarantee a dispute-free ending. Still, discussing the awkward questions together now gives “sure babe” a welcome break from its second career as a financial policy document.`
   ];
 }
 
@@ -3508,7 +3508,7 @@ function App() {
             <section className="takeaways" aria-labelledby="takeaway-title">
               <div className="takeaway-intro">
                 <p className="eyebrow">{summary.eyebrow}</p>
-                <h2 id="takeaway-title">{summary.title}</h2>
+                <h2 id="takeaway-title">till contract do us part</h2>
                 <p>{summary.basis}</p>
               </div>
               <article className={`takeaway-verdict ${result.level.toLowerCase()}`}>
