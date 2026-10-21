@@ -1809,3 +1809,57 @@ li + li {
   .path-gavel-icon { animation: none; }
   .step-list { scroll-behavior: auto; }
 }
+
+/* Small loops keep the existing cartoon readable while bringing it to life. */
+.cartoon-scene { position: relative; }
+.cartoon-animation-toggle {
+  display: block;
+  margin: 0 0 8px auto;
+  min-height: 36px;
+  padding: 7px 12px;
+  border: 1px solid #c5d7e8;
+  border-radius: 6px;
+  background: #f4f8fc;
+  color: #23415f;
+  font-size: .8rem;
+}
+.cartoon-animation-toggle:focus-visible { outline: 2px solid #1d4ed8; outline-offset: 3px; }
+.cartoon-person { transform-box: fill-box; transform-origin: 50% 100%; animation: cartoon-sway 3.6s ease-in-out infinite; }
+.cartoon-tear-drop { animation: cartoon-tears 1.8s ease-in infinite; }
+.cartoon-flying-paper { transform-box: fill-box; transform-origin: center; animation: cartoon-paper-float 4s ease-in-out infinite; }
+.cartoon-flying-money { transform-box: fill-box; transform-origin: center; animation: cartoon-money-float 4.6s ease-in-out infinite; }
+.cartoon-wallet { transform-box: fill-box; transform-origin: center; animation: cartoon-wallet-wobble 3.6s ease-in-out infinite; }
+.cartoon-motion { animation: cartoon-motion-lines 2.3s ease-in-out infinite; }
+.cartoon-scene.paused .cartoon-panel * { animation-play-state: paused; }
+@keyframes cartoon-sway {
+  0%, 100% { transform: rotate(-.8deg); }
+  50% { transform: rotate(.8deg); }
+}
+@keyframes cartoon-tears {
+  0% { transform: translateY(-3px); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateY(11px); opacity: 0; }
+}
+@keyframes cartoon-paper-float {
+  0%, 100% { transform: translate(0, 0) rotate(11deg); }
+  50% { transform: translate(5px, -5px) rotate(5deg); }
+}
+@keyframes cartoon-money-float {
+  0%, 100% { transform: translate(0, 0) rotate(-12deg); }
+  50% { transform: translate(10px, -7px) rotate(-4deg); }
+}
+@keyframes cartoon-wallet-wobble {
+  0%, 70%, 100% { transform: rotate(-9deg); }
+  78% { transform: rotate(-15deg); }
+  86% { transform: rotate(-4deg); }
+  93% { transform: rotate(-12deg); }
+}
+@keyframes cartoon-motion-lines {
+  0%, 100% { opacity: .4; }
+  50% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cartoon-panel * { animation: none !important; }
+  .cartoon-animation-toggle { display: none; }
+}
