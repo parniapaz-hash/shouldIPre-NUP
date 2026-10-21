@@ -2651,8 +2651,102 @@ function DivorceCartoon({ exposure, language }) {
   );
 }
 
+const counselingCopy = {
+  "en": {
+    "title": "A quick relationship check-in?",
+    "question": "Would you like to look into marriage counseling?",
+    "note": "A postnup can be part of ordinary financial planning. Counseling is an optional space to talk about communication, expectations, or changes together.",
+    "yes": "Yes, tell me more",
+    "no": "Not now",
+    "heading": "A small place to start",
+    "steps": [
+      "Talk about what each of you would want from counseling, such as clearer communication or support through a change.",
+      "Look for a licensed marriage and family therapist or couples counselor. Ask about experience, fees, insurance, and availability.",
+      "Consider an introductory consultation to see whether the approach feels right for both of you."
+    ],
+    "done": "Got it"
+  },
+  "es": {
+    "title": "¿Una pausa para hablar de la relación?",
+    "question": "¿Te gustaría informarte sobre terapia de pareja?",
+    "note": "Un acuerdo posnupcial puede ser parte de una planificación financiera normal. La terapia es un espacio opcional para hablar de comunicación, expectativas o cambios juntos.",
+    "yes": "Sí, cuéntame más",
+    "no": "Ahora no",
+    "heading": "Un pequeño primer paso",
+    "steps": [
+      "Hablen de lo que cada uno buscaría en la terapia, como mejorar la comunicación o recibir apoyo ante un cambio.",
+      "Busquen un profesional autorizado de terapia de pareja o familiar. Pregunten por su experiencia, honorarios, seguro y disponibilidad.",
+      "Consideren una consulta inicial para ver si el enfoque les resulta adecuado a ambos."
+    ],
+    "done": "Entendido"
+  },
+  "ar": {
+    "title": "هل نطمئن قليلاً على العلاقة؟",
+    "question": "هل ترغب في معرفة المزيد عن الاستشارة الزوجية؟",
+    "note": "قد يكون اتفاق ما بعد الزواج جزءاً من التخطيط المالي المعتاد. والاستشارة مساحة اختيارية للحديث معاً عن التواصل والتوقعات والتغيرات.",
+    "yes": "نعم، أريد معرفة المزيد",
+    "no": "ليس الآن",
+    "heading": "خطوة صغيرة للبداية",
+    "steps": [
+      "تحدثا عما يريده كل منكما من الاستشارة، مثل تحسين التواصل أو الدعم أثناء التغيير.",
+      "ابحثا عن مختص مرخص في العلاج الزوجي أو الأسري. اسألا عن الخبرة والتكلفة والتأمين والمواعيد المتاحة.",
+      "فكرا في جلسة تعارف أولية لمعرفة ما إذا كان الأسلوب مناسباً لكليكما."
+    ],
+    "done": "فهمت"
+  },
+  "zh": {
+    "title": "要不要聊聊你们的关系？",
+    "question": "想了解一下婚姻咨询吗？",
+    "note": "婚后协议也可以是日常财务规划的一部分。咨询是一个可选的空间，让双方一起谈谈沟通、期待或生活变化。",
+    "yes": "想，了解更多",
+    "no": "暂时不用",
+    "heading": "从一个小步骤开始",
+    "steps": [
+      "聊聊各自希望从咨询中得到什么，比如改善沟通，或在生活变化时获得支持。",
+      "寻找持有相关执照的婚姻家庭治疗师或伴侣咨询师，询问经验、费用、保险和预约情况。",
+      "可以先约一次初步咨询，看看这种方式是否适合你们双方。"
+    ],
+    "done": "知道了"
+  }
+};
+
+function CounselingPrompt({ language, onDismiss }) {
+  const [expanded, setExpanded] = useState(false);
+  const content = counselingCopy[language];
+  return (
+    <aside className="counseling-prompt" aria-labelledby="counseling-question">
+      <svg className="counseling-character" viewBox="0 0 100 140" aria-hidden="true">
+        <path d="M16 134 L20 97 Q24 80 50 80 Q76 80 80 97 L84 134Z" fill="#6fa99b" stroke="#234b45" strokeWidth="3" />
+        <path d="M35 87 L50 103 L65 87" fill="#fff8ed" stroke="#234b45" strokeWidth="3" />
+        <circle cx="50" cy="48" r="29" fill="#efc8a4" stroke="#234b45" strokeWidth="3" />
+        <path d="M22 45 Q18 13 50 15 Q83 15 79 43 L68 30 Q48 39 30 30Z" fill="#394438" />
+        <circle cx="40" cy="47" r="2.5" fill="#234b45" /><circle cx="60" cy="47" r="2.5" fill="#234b45" />
+        <path d="M39 60 Q50 70 61 60" fill="none" stroke="#234b45" strokeWidth="3" strokeLinecap="round" />
+        <path className="counseling-wave" d="M79 106 Q96 94 91 76" fill="none" stroke="#234b45" strokeWidth="8" strokeLinecap="round" />
+        <circle cx="90" cy="73" r="7" fill="#efc8a4" stroke="#234b45" strokeWidth="2" />
+      </svg>
+      <div className="counseling-bubble">
+        <p className="counseling-kicker">{content.title}</p>
+        <h3 id="counseling-question" aria-live="polite">{content.question}</h3>
+        <p>{content.note}</p>
+        {expanded && (
+          <div id="counseling-details" className="counseling-details">
+            <h4>{content.heading}</h4>
+            <ol>{content.steps.map((line) => <li key={line}>{line}</li>)}</ol>
+          </div>
+        )}
+        <div className="counseling-actions">
+          {!expanded && <button type="button" aria-expanded={expanded} aria-controls="counseling-details" onClick={() => setExpanded(true)}>{content.yes}</button>}
+          <button type="button" className="counseling-dismiss" onClick={onDismiss}>{expanded ? content.done : content.no}</button>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
 function App() {
   const [answers, setAnswers] = useState(initialAnswers);
+  const [showCounseling, setShowCounseling] = useState(false);
   const [language, setLanguage] = useState("en");
   const [stepIndex, setStepIndex] = useState(0);
   const [scriptCopied, setScriptCopied] = useState(false);
@@ -2836,17 +2930,21 @@ function App() {
           {step.id === "path" && (
             <FieldGroup title={copy.pathTitle}>
               <div className="choice-grid two">
-                <ChoiceButton active={answers.mode === "prenup"} onClick={() => setAnswer("mode", "prenup")}>
+                <ChoiceButton active={answers.mode === "prenup"} onClick={() => { setAnswer("mode", "prenup"); setShowCounseling(false); }}>
                   <BadgeCheck size={22} aria-hidden="true" />
                   <strong>{copy.prenupReadiness}</strong>
                   <span>{copy.prenupReadinessText}</span>
                 </ChoiceButton>
-                <ChoiceButton active={answers.mode === "postnup"} onClick={() => setAnswer("mode", "postnup")}>
+                <ChoiceButton active={answers.mode === "postnup"} onClick={() => { setAnswer("mode", "postnup"); setShowCounseling(true); }}>
                   <HeartHandshake size={22} aria-hidden="true" />
                   <strong>{copy.postnupReadiness}</strong>
                   <span>{copy.postnupReadinessText}</span>
                 </ChoiceButton>
               </div>
+
+              {answers.mode === "postnup" && showCounseling && (
+                <CounselingPrompt language={language} onDismiss={() => setShowCounseling(false)} />
+              )}
 
               <section className="couple-profile-card">
                 <h3>{copy.coupleProfileTitle}</h3>

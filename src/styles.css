@@ -1891,3 +1891,21 @@ li + li {
 .conversation-small-step { margin-top: 20px; padding: 16px; background: #e5effb; border-radius: 8px; }
 .conversation-small-step p { margin: 0; }
 @media (max-width: 760px) { .conversation-followups { grid-template-columns: 1fr; } }
+
+.counseling-prompt { display: flex; align-items: flex-start; gap: 16px; margin-block: 22px; animation: counselor-pop 350ms ease-out; }
+.counseling-character { flex: 0 0 88px; width: 88px; height: 124px; margin-top: 18px; }
+.counseling-bubble { min-width: 0; flex: 1; padding: 22px; border: 1px solid #b6d5c8; border-radius: 18px; background: #f0f8f3; }
+.counseling-kicker { color: #396653; font-size: .8rem; font-weight: 750; margin-bottom: 8px; }
+.counseling-bubble h3 { color: #234b45; font-size: 1.15rem; margin-bottom: 12px; }
+.counseling-bubble > p:last-of-type, .counseling-details li { color: #415b52; line-height: 1.6; }
+.counseling-details { border-top: 1px solid #c5ddcf; padding-top: 16px; margin-top: 16px; }
+.counseling-details h4 { margin: 0 0 10px; color: #234b45; }
+.counseling-details ol { margin: 0 0 18px; padding-inline-start: 22px; }
+.counseling-details li { margin-bottom: 10px; }
+.counseling-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.counseling-actions button { min-height: 42px; padding: 10px 16px; border: 1px solid #316754; border-radius: 8px; background: #316754; color: white; font-weight: 650; }
+.counseling-actions .counseling-dismiss { background: transparent; color: #316754; border-color: #a9c8b9; }
+.counseling-actions button:focus-visible { outline: 2px solid #1d4ed8; outline-offset: 3px; }
+@keyframes counselor-pop { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@media (max-width: 560px) { .counseling-prompt { gap: 8px; } .counseling-character { flex-basis: 54px; width: 54px; height: 80px; } .counseling-bubble { padding: 16px; } }
+@media (prefers-reduced-motion: reduce) { .counseling-prompt { animation: none; } }
