@@ -81,6 +81,57 @@ const languages = {
   zh: { label: "中文", dir: "ltr" }
 };
 
+const conversationExtras = {
+  "en": {
+    "questionsTitle": "Three questions to explore together",
+    "questions": [
+      "What would each of us want to feel secure about financially?",
+      "How should we handle future changes, such as a home, children, or one of us taking time away from work?",
+      "What would make the process feel fair and comfortable for both of us?"
+    ],
+    "hesitantTitle": "If your partner feels uneasy",
+    "hesitantReply": "I hear that this feels uncomfortable. We do not have to decide anything today. What worries you most about it? I want to understand before we talk about terms.",
+    "smallStepTitle": "End with one small next step",
+    "smallStep": "Agree on a calm time to talk again. Each of you can bring a short list of priorities and questions; there is no need to negotiate or sign anything in this first conversation."
+  },
+  "es": {
+    "questionsTitle": "Tres preguntas para explorar juntos",
+    "questions": [
+      "¿Qué necesitaría cada uno para sentirse seguro económicamente?",
+      "¿Cómo abordaríamos cambios futuros, como una vivienda, hijos o una pausa laboral?",
+      "¿Qué haría que el proceso fuera justo y cómodo para ambos?"
+    ],
+    "hesitantTitle": "Si tu pareja se siente incómoda",
+    "hesitantReply": "Entiendo que esto resulte incómodo. No tenemos que decidir nada hoy. ¿Qué es lo que más te preocupa? Quiero entenderlo antes de hablar de condiciones.",
+    "smallStepTitle": "Terminen con un pequeño siguiente paso",
+    "smallStep": "Acuerden un momento tranquilo para retomar la conversación. Cada uno puede traer una lista breve de prioridades y preguntas; no hace falta negociar ni firmar nada en esta primera charla."
+  },
+  "ar": {
+    "questionsTitle": "ثلاثة أسئلة لاستكشافها معاً",
+    "questions": [
+      "ما الذي يحتاج إليه كل منا ليشعر بالأمان المالي؟",
+      "كيف نتعامل مع التغيرات المستقبلية، مثل منزل أو أطفال أو توقف أحدنا عن العمل؟",
+      "ما الذي يجعل العملية عادلة ومريحة لكلينا؟"
+    ],
+    "hesitantTitle": "إذا شعر شريكك بعدم الارتياح",
+    "hesitantReply": "أتفهم أن هذا غير مريح. لا نحتاج إلى اتخاذ أي قرار اليوم. ما أكثر ما يقلقك؟ أريد أن أفهم قبل أن نتحدث عن الشروط.",
+    "smallStepTitle": "اختتما الحديث بخطوة صغيرة",
+    "smallStep": "اتفقا على وقت هادئ للحديث مجدداً. يمكن لكل منكما إعداد قائمة قصيرة بالأولويات والأسئلة؛ لا حاجة إلى التفاوض أو التوقيع في هذه المحادثة الأولى."
+  },
+  "zh": {
+    "questionsTitle": "一起探讨的三个问题",
+    "questions": [
+      "我们各自需要什么，才能在财务上感到安心？",
+      "如果将来买房、生孩子，或有人暂时离开职场，我们希望如何安排？",
+      "怎样的过程会让我们双方都觉得公平、自在？"
+    ],
+    "hesitantTitle": "如果伴侣感到不安",
+    "hesitantReply": "我知道这让人不太舒服。我们今天不用做任何决定。你最担心的是什么？在讨论条款之前，我想先理解你的感受。",
+    "smallStepTitle": "最后约定一个小小的下一步",
+    "smallStep": "约个平静的时间继续聊。各自准备一份简短的重点和问题清单；第一次谈话不需要协商条款或签署任何文件。"
+  }
+};
+
 const takeawayCopy = {
   "en": {
     "label": "Main points",
@@ -2624,6 +2675,7 @@ function App() {
   }, [stepIndex, language]);
   const copy = getCopy(language);
   const summary = takeawayCopy[language];
+  const conversationExtra = conversationExtras[language];
   const rule = stateRules[answers.state];
   const result = useMemo(() => scoreAnswers(answers), [answers]);
   const currentAssetTotal = useMemo(() => getAssetTotal(answers.currentAssetValues), [answers.currentAssetValues]);
@@ -2940,32 +2992,7 @@ function App() {
                 <YesNo copy={copy} value={answers.pressure} onChange={(value) => setAnswer("pressure", value)} />
               </label>
 
-              <section className="conversation-starter">
-                <div className="conversation-heading">
-                  <div>
-                    <p className="conversation-eyebrow">{copy.conversationEyebrow}</p>
-                    <h3>{copy.conversationTitle}</h3>
-                  </div>
-                  <button className="copy-script-button" type="button" onClick={copyConversationScript}>
-                    {scriptCopied ? <CheckCircle2 size={17} aria-hidden="true" /> : <CopyIcon size={17} aria-hidden="true" />}
-                    {scriptCopied ? copy.copiedScript : copy.copyScript}
-                  </button>
-                </div>
-                <p className="conversation-intro">{copy.conversationIntro}</p>
-                <blockquote className="conversation-script">
-                  {conversationScript.map((line) => (
-                    <p key={line}>{line}</p>
-                  ))}
-                </blockquote>
-                <div className="conversation-tips">
-                  <strong>{copy.conversationTipsTitle}</strong>
-                  <ul>
-                    {copy.conversationTips.map((tip) => (
-                      <li key={tip}>{tip}</li>
-                    ))}
-                  </ul>
-                </div>
-              </section>
+
             </FieldGroup>
           )}
 
@@ -3502,6 +3529,46 @@ function App() {
                   <p>{summaryNextMove}</p>
                 </article>
               </div>
+              <section className="conversation-starter">
+                <div className="conversation-heading">
+                  <div>
+                    <p className="conversation-eyebrow">{copy.conversationEyebrow}</p>
+                    <h3>{copy.conversationTitle}</h3>
+                  </div>
+                  <button className="copy-script-button" type="button" onClick={copyConversationScript}>
+                    {scriptCopied ? <CheckCircle2 size={17} aria-hidden="true" /> : <CopyIcon size={17} aria-hidden="true" />}
+                    {scriptCopied ? copy.copiedScript : copy.copyScript}
+                  </button>
+                </div>
+                <p className="conversation-intro">{copy.conversationIntro}</p>
+                <blockquote className="conversation-script">
+                  {conversationScript.map((line) => (
+                    <p key={line}>{line}</p>
+                  ))}
+                </blockquote>
+                <div className="conversation-tips">
+                  <strong>{copy.conversationTipsTitle}</strong>
+                  <ul>
+                    {copy.conversationTips.map((tip) => (
+                      <li key={tip}>{tip}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="conversation-followups">
+                  <section>
+                    <h4>{conversationExtra.questionsTitle}</h4>
+                    <ul>{conversationExtra.questions.map((question) => <li key={question}>{question}</li>)}</ul>
+                  </section>
+                  <section>
+                    <h4>{conversationExtra.hesitantTitle}</h4>
+                    <blockquote>{conversationExtra.hesitantReply}</blockquote>
+                  </section>
+                </div>
+                <div className="conversation-small-step">
+                  <h4>{conversationExtra.smallStepTitle}</h4>
+                  <p>{conversationExtra.smallStep}</p>
+                </div>
+              </section>
               <p className="takeaway-boundary">{copy.boundaryNote}</p>
             </section>
           )}
